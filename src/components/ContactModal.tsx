@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { contacts } from '../data/services'
+import { ArrowIcon } from './ArrowIcon'
 import { Logo } from './Logo'
 import { PolygonField } from './PolygonField'
 
@@ -95,7 +96,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
                 {submitState === 'default' && 'Отправить заявку'}
                 {submitState === 'loading' && 'Проверяем форму…'}
                 {submitState === 'success' && 'Готово — демо без отправки'}
-                <span aria-hidden="true">↗</span>
+                <ArrowIcon />
               </button>
               {submitState === 'success' && <p className="contact-form__note">Данные остались только в браузере и не были отправлены.</p>}
             </form>
