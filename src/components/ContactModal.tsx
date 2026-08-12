@@ -30,6 +30,12 @@ export function ContactModal({ open, onClose }: Props) {
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'unconfigured' | 'error'>('idle')
 
+  const close = () => {
+    setErrors({})
+    setStatus('idle')
+    onClose()
+  }
+
   useEffect(() => {
     if (!open) return
     const previous = document.activeElement as HTMLElement | null
@@ -39,7 +45,11 @@ export function ContactModal({ open, onClose }: Props) {
     requestAnimationFrame(() => dialogRef.current?.querySelector<HTMLElement>('input, select, button')?.focus())
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        close()
+        return
+      }
       if (event.key !== 'Tab' || !dialogRef.current) return
       const focusables = Array.from(dialogRef.current.querySelectorAll<HTMLElement>('button, input, select, a[href], [tabindex]:not([tabindex="-1"])')).filter((el) => !el.hasAttribute('disabled'))
       if (!focusables.length) return
@@ -97,7 +107,7 @@ export function ContactModal({ open, onClose }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: reduceMotion ? 0 : .2 }}
-          onMouseDown={(event) => { if (event.currentTarget === event.target) onClose() }}
+          onMouseDown={(event) => { if (event.currentTarget === event.target) close() }}
         >
           <motion.div
             ref={dialogRef}
@@ -115,14 +125,14 @@ export function ContactModal({ open, onClose }: Props) {
                 <span className="eyebrow">Заявка</span>
                 <h2 id="contact-modal-title">Связаться с нами</h2>
               </div>
-              <button className="icon-button" type="button" onClick={onClose} aria-label="Закрыть форму">×</button>
+              <button className="icon-button" type="button" onClick={close} aria-label="Закрыть форму">×</button>
             </div>
 
             {status === 'success' ? (
               <div className="form-state" role="status">
                 <strong>Заявка отправлена.</strong>
                 <p>Спасибо. Форма получила подтверждение от подключенного обработчика.</p>
-                <button className="primary-button" type="button" onClick={onClose}>Закрыть</button>
+                <button className="primary-button" type="button" onClick={close}>Закрыть</button>
               </div>
             ) : (
               <form onSubmit={submit} noValidate>
