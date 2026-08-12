@@ -1,5 +1,5 @@
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ContactModal } from './components/ContactModal'
 import { DentalObject, type DentalObjectVariant } from './components/DentalObject'
 import { Logo } from './components/Logo'
@@ -43,11 +43,13 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
     <motion.article
       layoutId={`bento-${card.id}`}
       role="button"
-      tabIndex={0}
+      tabIndex={escaping ? -1 : 0}
       className={`bento-card ${card.className}`}
       aria-label={card.aria}
-      onClick={onOpen}
+      aria-hidden={escaping || undefined}
+      onClick={escaping ? undefined : onOpen}
       onKeyDown={(event) => {
+        if (escaping) return
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
           onOpen()
@@ -55,7 +57,7 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
       }}
       animate={escaping && !reduceMotion ? { x: card.escape.x ?? 0, y: card.escape.y ?? 0, opacity: 0, scale: .94 } : { x: 0, y: 0, opacity: 1, scale: 1 }}
       transition={{ duration: reduceMotion ? .01 : .58, ease: [0.22, 1, 0.36, 1] }}
-      whileTap={reduceMotion ? undefined : { scale: .985 }}
+      whileTap={reduceMotion || escaping ? undefined : { scale: .985 }}
     >
       {card.id === 'hero' ? (
         <>
@@ -201,7 +203,13 @@ export default function App() {
   const [contactOpen, setContactOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const open = (id: PanelId) => { setMenuOpen(false); setActive(id) }
+  const open = useCallback((id: PanelId) => {
+    setMenuOpen(false)
+    setActive(id)
+  }, [])
+  const closePanel = useCallback(() => setActive(null), [])
+  const openContact = useCallback(() => setContactOpen(true), [])
+  const closeContact = useCallback(() => setContactOpen(false), [])
 
   return (
     <LayoutGroup>
@@ -216,7 +224,7 @@ export default function App() {
             <button aria-pressed={active === 'price'} onClick={() => open('price')}>Прайс</button>
             <button aria-pressed={active === 'contacts'} onClick={() => open('contacts')}>Контакты</button>
           </nav>
-          <button className="header-cta" type="button" onClick={() => setContactOpen(true)}><span className="header-cta__wide">Связаться с нами</span><span className="header-cta__short">Связаться</span></button>
+          <button className="header-cta" type="button" onClick={openContact}><span className="header-cta__wide">Связаться с нами</span><span className="header-cta__short">Связаться</span></button>
           <button className="mobile-menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? '×' : 'Меню'}</button>
           <AnimatePresence>
             {menuOpen && (
@@ -235,9 +243,9 @@ export default function App() {
         </section>
 
         <AnimatePresence mode="sync">
-          {active && <ExpandedPanel key={active} panel={active} onClose={() => setActive(null)} onContact={() => setContactOpen(true)} />}
+          {active && <ExpandedPanel key={active} panel={active} onClose={closePanel} onContact={openContact} />}
         </AnimatePresence>
-        <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+        <ContactModal open={contactOpen} onClose={closeContact} />
       </main>
     </LayoutGroup>
   )
