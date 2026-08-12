@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from 'react'
 import { ContactModal } from './components/ContactModal'
 import { Logo } from './components/Logo'
 import { PolygonField } from './components/PolygonField'
@@ -8,7 +8,7 @@ import { contacts, formatPrice, sections, type LabSection } from './data/service
 
 function ContactButton({ onClick, dark = false }: { onClick: () => void; dark?: boolean }) {
   return (
-    <button className={`cta ${dark ? 'cta--light' : ''}`} onClick={(event) => { event.stopPropagation(); onClick() }}>
+    <button className={`cta ${dark ? 'cta--light' : ''}`} onClick={(event: MouseEvent<HTMLButtonElement>) => { event.stopPropagation(); onClick() }}>
       Связаться с нами <span aria-hidden="true">↗</span>
     </button>
   )
@@ -57,7 +57,7 @@ function BentoCard({
       tabIndex={0}
       aria-label={`Открыть раздел: ${section.title}`}
       onClick={() => onOpen(section.id)}
-      onKeyDown={(event) => {
+      onKeyDown={(event: ReactKeyboardEvent<HTMLElement>) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
           onOpen(section.id)
