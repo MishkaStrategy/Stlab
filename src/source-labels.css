@@ -1,0 +1,124 @@
+/* Typography for the longer category names taken directly from the STLab source price list. */
+.tech-caption {
+  max-width: 48%;
+  overflow-wrap: anywhere;
+}
+
+.bento-card--diagnostics .card-content h2 {
+  max-width: 12ch;
+  font-size: clamp(22px, 2.15vw, 42px);
+}
+
+.bento-card--zro2 .card-content h2 {
+  max-width: 12ch;
+  font-size: clamp(22px, 2.05vw, 40px);
+}
+
+.bento-card--pmma .card-content h2 {
+  max-width: 20ch;
+  font-size: clamp(18px, 1.65vw, 31px);
+  line-height: .92;
+}
+
+.bento-card--emax .card-content h2 {
+  max-width: 12ch;
+  font-size: clamp(19px, 1.75vw, 32px);
+}
+
+.bento-card--titanium .card-content h2 {
+  max-width: 14ch;
+  font-size: clamp(18px, 1.55vw, 29px);
+  line-height: .92;
+}
+
+.bento-card--navigation .card-content h2 {
+  max-width: 18ch;
+  font-size: clamp(24px, 2.55vw, 48px);
+  line-height: .9;
+}
+
+.bento-card--removable .card-content h2 {
+  max-width: 17ch;
+  font-size: clamp(22px, 2.35vw, 44px);
+  line-height: .9;
+}
+
+@media (max-width: 1050px) {
+  .bento-card--pmma .card-content h2,
+  .bento-card--titanium .card-content h2 {
+    font-size: clamp(16px, 2.2vw, 25px);
+  }
+
+  .bento-card--diagnostics .card-content h2,
+  .bento-card--zro2 .card-content h2,
+  .bento-card--emax .card-content h2 {
+    font-size: clamp(17px, 2.35vw, 27px);
+  }
+}
+
+@media (max-width: 760px) {
+  .tech-caption {
+    max-width: 52%;
+    font-size: 6.8px;
+    line-height: 1.15;
+  }
+
+  .bento-card--diagnostics .card-content h2,
+  .bento-card--zro2 .card-content h2,
+  .bento-card--emax .card-content h2,
+  .bento-card--titanium .card-content h2 {
+    font-size: clamp(15px, 4.4vw, 23px);
+    line-height: .92;
+  }
+
+  .bento-card--pmma .card-content h2 {
+    font-size: clamp(16px, 4.5vw, 25px);
+  }
+
+  .bento-card--navigation .card-content h2,
+  .bento-card--removable .card-content h2 {
+    font-size: clamp(20px, 6.1vw, 34px);
+  }
+
+  .card-content p {
+    max-width: 30ch;
+  }
+
+  .expanded-panel__left h1 {
+    font-size: clamp(32px, 10vw, 54px);
+    line-height: .9;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .bento-card--diagnostics .card-content h2,
+  .bento-card--zro2 .card-content h2,
+  .bento-card--emax .card-content h2,
+  .bento-card--titanium .card-content h2 {
+    font-size: clamp(13px, 4vw, 17px);
+    line-height: .95;
+  }
+
+  .bento-card--pmma .card-content h2 {
+    max-width: 22ch;
+    font-size: clamp(15px, 4.4vw, 20px);
+  }
+
+  .bento-card--navigation .card-content h2,
+  .bento-card--removable .card-content h2 {
+    font-size: clamp(18px, 5.8vw, 26px);
+  }
+
+  .bento-card--diagnostics .card-content p,
+  .bento-card--zro2 .card-content p,
+  .bento-card--emax .card-content p,
+  .bento-card--titanium .card-content p {
+    display: none;
+  }
+
+  .tech-caption {
+    max-width: 48%;
+    font-size: 6.2px;
+  }
+}
