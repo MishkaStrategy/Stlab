@@ -17,7 +17,7 @@ export function Logo({ compact = false, className = '' }: LogoProps) {
         <path d="M260 14h20v51h67v18h-87V14Z" />
       </g>
       <rect className="brand-logo__accent" x="280" y="65" width="72" height="13" />
-      <text x="352" y="82" className="brand-logo__lab">аб</text>
+      <text x="352" y="82" className="brand-logo__lab">ab</text>
       {!compact && (
         <text x="9" y="108" className="brand-logo__caption">
           ЦИФРОВАЯ ЗУБОТЕХНИЧЕСКАЯ ЛАБОРАТОРИЯ
