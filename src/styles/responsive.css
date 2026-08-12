@@ -1,0 +1,43 @@
+@media (max-width: 820px) {
+  :root { --gap: 6px; }
+  .app-shell { padding:var(--gap); }
+  .site-header { height:58px; grid-template-columns:auto 1fr auto; gap:8px; padding:0 10px; }
+  .brand-lockup--compact { width:108px; }
+  .desktop-nav { display:none; }
+  .header-cta { justify-self:end; min-height:44px; padding:0 12px; font-size:12px; }
+  .mobile-menu-button { display:block; min-height:44px; border:1px solid var(--line); background:rgba(255,255,255,.04); padding:0 10px; cursor:pointer; }
+  .mobile-nav { display:grid; grid-template-columns:repeat(2,1fr); }
+  .bento-grid { height:calc(100dvh - 58px - var(--gap) - var(--gap) - var(--gap)); grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:minmax(0,1.7fr) minmax(0,1.3fr) minmax(0,.95fr) minmax(0,.72fr); grid-template-areas:"hero hero hero hero" "works works about about" "works works price price" "contacts contacts contacts contacts"; }
+  .bento-card { padding:13px; }
+  .bento-card h1,.bento-card h2 { max-width:88%; font-size:clamp(18px,6vw,30px); }
+  .bento-card--hero .brand-lockup { width:126px; }
+  .hero-copy { left:13px; bottom:13px; }
+  .card-link { display:none; }
+  .dental-object { width:125px; right:-30px; bottom:-26px; }
+  .dental-object--about,.dental-object--price { width:92px; }.dental-object--works { width:70px; right:-14px; top:5px; bottom:auto; }.dental-object--contacts { width:76px; }
+  .glass-button { min-height:44px; font-size:12px; }
+  .location-meta { bottom:12px; left:auto; right:12px; }
+  .expanded-panel { inset:6px; }
+  .expanded-panel__header { height:58px; padding:0 12px; }
+  .expanded-panel > .dental-object.is-expanded { width:78vw; right:-28vw; bottom:-12vw; opacity:.42; }
+  .expanded-content { height:calc(100% - 58px); padding:18px 14px 16px; }
+  .expanded-content h2 { font-size:clamp(34px,11vw,58px); }
+  .expanded-content--hero { max-width:100%; justify-content:flex-start; padding-top:28px; overflow:auto; }
+  .expanded-content--hero > p { font-size:14px; max-width:92%; }
+  .advantages { grid-template-columns:1fr; gap:6px; margin:16px 0; }
+  .advantages article { min-height:92px; display:grid; grid-template-columns:42px 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; padding:12px; }.advantages .mini-orb { grid-row:1/3; }.advantages strong { margin:0; font-size:16px; }.advantages small { margin:0; }
+  .expanded-content--about { display:block; overflow:auto; }.about-bento { grid-template-columns:1fr; margin-top:22px; }.about-bento article { min-height:120px; }.about-bento article strong { margin-top:22px; }
+  .expanded-content--price { display:block; overflow:hidden; }.expanded-content--price .expanded-title { margin-bottom:18px; }.expanded-content--price h2 { font-size:42px; }.price-list { height:calc(100% - 92px); padding-right:2px; }.price-list li { font-size:12px; gap:10px; }
+  .expanded-content--works { gap:12px; }.expanded-content--works h2 { font-size:42px; }.works-slider-controls { top:-50px; }.works-slider-controls .icon-button { width:44px; height:44px; }.work-slide { flex-basis:88vw; grid-template-columns:1fr; grid-template-rows:minmax(0,1fr) auto; }.work-slide__copy { padding:14px; }.work-slide__copy h3 { font-size:24px; }.work-slide__copy p { font-size:13px; }
+  .expanded-content--contacts { display:flex; flex-direction:column; overflow:auto; gap:14px; }.contacts-copy { flex:0 0 auto; }.contacts-copy h2 { font-size:44px; }.contacts-copy dl { margin:14px 0; }.contacts-copy dl div { grid-template-columns:82px 1fr; }.map-shell { flex:0 0 280px; min-height:280px; }
+}
+@media (max-width: 390px), (max-height: 760px) and (max-width:820px) {
+  .site-header { height:52px; }.header-cta { padding:0 9px; font-size:11px; }.mobile-menu-button { min-height:44px; font-size:11px; }.brand-lockup--compact { width:96px; }
+  .bento-grid { height:calc(100dvh - 52px - var(--gap) - var(--gap) - var(--gap)); grid-template-rows:minmax(0,1.55fr) minmax(0,1.15fr) minmax(0,.85fr) minmax(0,.62fr); }
+  .bento-card { padding:10px; }.bento-card h1,.bento-card h2 { font-size:clamp(17px,5.6vw,25px); }.hero-copy { left:10px; bottom:10px; }.bento-card--hero .brand-lockup{width:105px}.glass-button{left:8px;right:8px;bottom:8px;min-height:44px}.location-meta{font-size:10px;bottom:9px}
+  .expanded-content { padding:14px 11px; }.expanded-content h2 { font-size:clamp(31px,10vw,48px); }.expanded-content--hero > p { font-size:12px; line-height:1.45; }.advantages article { min-height:78px; }.advantages small { font-size:10px; }.primary-button { min-height:44px; }.map-shell { flex-basis:220px; min-height:220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  .dental-object { transform:none !important; }
+}
