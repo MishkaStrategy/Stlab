@@ -12,7 +12,13 @@ export function Logo({ compact = false, className = '' }: LogoProps) {
       aria-label="STLab"
     >
       <g className="brand-logo__stl" fill="currentColor">
-        <path d="M8 14h108v18H30v17h77v17H8V14Zm0 52h78v17H8V66Z" />
+        <g aria-hidden="true">
+          <rect x="8" y="14" width="108" height="13" />
+          <rect x="8" y="26" width="20" height="18" />
+          <rect x="8" y="42" width="108" height="13" />
+          <rect x="96" y="54" width="20" height="18" />
+          <rect x="8" y="70" width="108" height="13" />
+        </g>
         <path d="M132 14h112v18h-45v51h-20V32h-47V14Z" />
         <path d="M260 14h20v51h67v18h-87V14Z" />
       </g>
