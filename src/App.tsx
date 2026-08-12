@@ -1,231 +1,187 @@
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { useEffect, useState, type MouseEvent } from 'react'
-import { ArrowIcon } from './components/ArrowIcon'
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { ContactModal } from './components/ContactModal'
+import { DentalObject, type DentalObjectVariant } from './components/DentalObject'
 import { Logo } from './components/Logo'
-import { PolygonField } from './components/PolygonField'
-import { Specimen } from './components/Specimen'
-import { contacts, formatPrice, sections } from './data/services'
+import { PriceList } from './components/PriceList'
+import { WorksSlider } from './components/WorksSlider'
+import { contacts } from './data/services'
 
-type PanelId = 'about' | 'works' | 'price' | 'contacts'
+type PanelId = 'hero' | 'about' | 'price' | 'works' | 'contacts'
 
-function ContactButton({ onClick, light = false }: { onClick: () => void; light?: boolean }) {
-  return (
-    <button
-      className={`landing-contact ${light ? 'landing-contact--light' : ''}`}
-      onClick={(event: MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation()
-        onClick()
-      }}
-    >
-      Связаться с нами
-      <ArrowIcon />
-    </button>
-  )
-}
-
-function FolderVisual() {
-  return (
-    <svg className="folder-visual" viewBox="0 0 320 250" aria-hidden="true">
-      <defs>
-        <linearGradient id="folderBack" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ff3658" />
-          <stop offset="1" stopColor="#cf002a" />
-        </linearGradient>
-        <linearGradient id="folderFront" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ff203f" />
-          <stop offset="1" stopColor="#c90028" />
-        </linearGradient>
-      </defs>
-      <path d="M36 76h87l25 25h136v105H36z" fill="url(#folderBack)" />
-      <path d="M54 94h216v103H54z" fill="#f6f5f2" opacity=".96" />
-      <path d="M68 107h188v86H68z" fill="#e7e8e8" />
-      <path d="M30 112h255l-14 111H43z" fill="url(#folderFront)" />
-      <path d="M42 122h231" stroke="#ff6b80" strokeWidth="3" opacity=".7" />
-    </svg>
-  )
-}
-
-function PriceVisual() {
-  return (
-    <svg className="price-visual" viewBox="0 0 330 270" aria-hidden="true">
-      <defs>
-        <linearGradient id="bill" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#dedfe0" />
-          <stop offset="1" stopColor="#8f9499" />
-        </linearGradient>
-      </defs>
-      {[0, 1, 2, 3].map((index) => (
-        <g key={index} transform={`translate(${58 + index * 18} ${84 - index * 12}) rotate(${index * 3 - 6} 100 60)`}>
-          <rect width="190" height="105" fill="url(#bill)" />
-          <rect x="14" y="14" width="162" height="77" fill="none" stroke="#747a80" strokeWidth="2" />
-          <circle cx="95" cy="52" r="23" fill="#c6c8ca" stroke="#777d82" strokeWidth="2" />
-          <path d="M23 29h38M129 76h38" stroke="#777d82" strokeWidth="3" />
-        </g>
-      ))}
-    </svg>
-  )
-}
-
-function PinIcon() {
-  return (
-    <svg className="pin-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 21s6-5.2 6-11A6 6 0 1 0 6 10c0 5.8 6 11 6 11Z" />
-      <circle cx="12" cy="10" r="2.3" />
-    </svg>
-  )
-}
-
-function LandingTile({
-  className,
-  label,
-  onClick,
-  children,
-}: {
+type CardConfig = {
+  id: PanelId
+  title: string
+  aria: string
+  variant: DentalObjectVariant
   className: string
-  label: string
-  onClick: () => void
-  children: React.ReactNode
-}) {
+  escape: { x?: string; y?: string }
+}
+
+const cards: CardConfig[] = [
+  { id: 'hero', title: 'STLab', aria: 'STLab — лаборатория с особым подходом', variant: 'hero', className: 'bento-card--hero', escape: { x: '-40vw', y: '-30vh' } },
+  { id: 'works', title: 'Наши работы', aria: 'Открыть наши работы', variant: 'works', className: 'bento-card--works', escape: { x: '48vw', y: '-22vh' } },
+  { id: 'about', title: 'О лаборатории', aria: 'Открыть информацию о лаборатории', variant: 'about', className: 'bento-card--about', escape: { x: '-45vw', y: '28vh' } },
+  { id: 'price', title: 'Прайс лаборатории', aria: 'Открыть прайс лаборатории', variant: 'price', className: 'bento-card--price', escape: { x: '16vw', y: '38vh' } },
+  { id: 'contacts', title: 'МЫ В НОВОСИБИРСКЕ', aria: 'Открыть контакты', variant: 'contacts', className: 'bento-card--contacts', escape: { x: '48vw', y: '32vh' } },
+]
+
+function Arrow() {
+  return (
+    <svg className="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+    </svg>
+  )
+}
+
+function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId | null; onOpen: () => void }) {
+  const reduceMotion = useReducedMotion()
+  if (active === card.id) return <div className={`bento-placeholder ${card.className}`} aria-hidden="true" />
+
+  const escaping = active !== null
   return (
     <motion.button
-      className={`landing-tile ${className}`}
+      layoutId={`bento-${card.id}`}
       type="button"
-      aria-label={label}
-      onClick={onClick}
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: .58, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.006 }}
-      whileTap={{ scale: .995 }}
+      className={`bento-card ${card.className}`}
+      aria-label={card.aria}
+      onClick={onOpen}
+      animate={escaping && !reduceMotion ? { x: card.escape.x ?? 0, y: card.escape.y ?? 0, opacity: 0, scale: .94 } : { x: 0, y: 0, opacity: 1, scale: 1 }}
+      transition={{ duration: reduceMotion ? .01 : .58, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={reduceMotion ? undefined : { scale: .985 }}
     >
-      {children}
+      {card.id === 'hero' ? (
+        <>
+          <Logo compact />
+          <div className="bento-card__copy hero-copy">
+            <h1>Лаборатория<br />с особым подходом</h1>
+          </div>
+        </>
+      ) : (
+        <div className="bento-card__copy">
+          <h2>{card.title}</h2>
+          {card.id !== 'contacts' && <span className="card-link">Открыть <Arrow /></span>}
+        </div>
+      )}
+      {card.id === 'works' && <img className="works-card-photo" src={`${import.meta.env.BASE_URL}stlab-work-01.jpg`} alt="" aria-hidden="true" />}
+      <DentalObject variant={card.variant} />
+      {card.id === 'works' && <span className="glass-button">Смотреть все <Arrow /></span>}
+      {card.id === 'contacts' && <span className="location-meta">Кирова, 276 <Arrow /></span>}
     </motion.button>
   )
 }
 
-function DetailPanel({
-  panel,
-  onClose,
-  onContact,
-}: {
-  panel: PanelId
-  onClose: () => void
-  onContact: () => void
-}) {
+function ExpandedPanel({ panel, onClose, onContact }: { panel: PanelId; onClose: () => void; onContact: () => void }) {
   const reduceMotion = useReducedMotion()
+  const panelRef = useRef<HTMLElement>(null)
+  const card = cards.find((item) => item.id === panel)!
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow
+    const previous = document.activeElement as HTMLElement | null
+    const oldOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    requestAnimationFrame(() => panelRef.current?.querySelector<HTMLElement>('.icon-button--close')?.focus())
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (document.querySelector('.modal-backdrop')) return
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+      if (event.key !== 'Tab' || !panelRef.current) return
+      const focusables = Array.from(panelRef.current.querySelectorAll<HTMLElement>('button, a[href], iframe, [tabindex]:not([tabindex="-1"])')).filter((element) => !element.hasAttribute('disabled'))
+      if (!focusables.length) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => {
-      document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = oldOverflow
+      previous?.focus()
     }
   }, [onClose])
 
   return (
     <motion.section
-      className="detail-panel"
+      ref={panelRef}
+      layoutId={`bento-${panel}`}
+      className={`expanded-panel expanded-panel--${panel}`}
       role="dialog"
       aria-modal="true"
-      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(8% 8% 8% 8%)' }}
-      animate={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
-      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(8% 8% 8% 8%)' }}
-      transition={{ duration: reduceMotion ? .12 : .48, ease: [0.22, 1, 0.36, 1] }}
+      aria-label={card.aria}
+      transition={{ layout: { type: 'spring', stiffness: reduceMotion ? 1000 : 190, damping: reduceMotion ? 100 : 25, mass: .9 } }}
     >
-      <PolygonField />
-      <div className="detail-panel__top">
+      <div className="expanded-panel__noise" aria-hidden="true" />
+      <header className="expanded-panel__header">
         <Logo compact />
-        <button className="detail-panel__close" type="button" onClick={onClose} aria-label="Закрыть раздел">×</button>
-      </div>
+        <button className="icon-button icon-button--close" type="button" onClick={onClose} aria-label="Закрыть раздел">×</button>
+      </header>
+      <DentalObject variant={card.variant} expanded />
 
-      {panel === 'about' && (
-        <div className="detail-panel__body detail-panel__body--about">
-          <div>
-            <div className="detail-kicker">О нашей организации</div>
-            <h2>Лаборатория<br />с особым подходом</h2>
+      {panel === 'hero' && (
+        <div className="expanded-content expanded-content--hero">
+          <span className="eyebrow">STLab · Новосибирск</span>
+          <h2>Цифровая зуботехническая лаборатория</h2>
+          <p>STLab работает с цифровыми диагностическими услугами, изделиями из ZrO2, PMMA и керамокомпозита, Ivoclar IPS E.MAX, титаном, навигационными протоколами и съёмными конструкциями.</p>
+          <div className="advantages">
+            <article><span className="mini-orb mini-orb--glass" /><strong>Цифровой цикл</strong><small>WAX-UP exo-cad, сканирование, 3D-печать</small></article>
+            <article><span className="mini-orb mini-orb--ceramic" /><strong>Материалы</strong><small>ZrO2, E.MAX, Ti, PMMA / керамокомпозит</small></article>
+            <article><span className="mini-orb mini-orb--mesh" /><strong>Навигация</strong><small>Пилотный и навигационный протоколы</small></article>
           </div>
-          <div className="about-copy">
-            <p>STLab — цифровая зуботехническая лаборатория.</p>
-            <div className="source-contact-list">
-              <span>г. {contacts.city}, {contacts.postalCode}</span>
-              <span>{contacts.address}</span>
-              <a href={contacts.phoneHref}>{contacts.phoneDisplay}</a>
-              <a href={`mailto:${contacts.email}`}>{contacts.email}</a>
-            </div>
-            <ContactButton onClick={onContact} light />
-          </div>
+          <button className="primary-button" type="button" onClick={onContact}>Связаться с нами</button>
         </div>
       )}
 
-      {panel === 'works' && (
-        <div className="detail-panel__body detail-panel__body--works">
-          <div className="detail-heading-row">
-            <div className="detail-kicker">Кейсы</div>
-            <h2>Наши работы</h2>
-          </div>
-          <div className="works-grid">
-            <article className="work-card">
-              <span>Изделия из ZrO2</span>
-              <Specimen type="crown" expanded />
-            </article>
-            <article className="work-card">
-              <span>IVOCLAR IPS E.MAX</span>
-              <Specimen type="emax" expanded />
-            </article>
-            <article className="work-card">
-              <span>Изделия из титана (Ti)</span>
-              <Specimen type="implant" expanded />
-            </article>
+      {panel === 'about' && (
+        <div className="expanded-content expanded-content--about">
+          <div className="expanded-title"><span className="eyebrow">О лаборатории</span><h2>Лаборатория<br />с особым подходом</h2></div>
+          <div className="about-bento">
+            <article><span>Специализация</span><strong>Цифровая зуботехническая лаборатория</strong></article>
+            <article><span>Подход</span><p>WAX-UP exo-cad, сканирование и 3D-печать входят в перечень услуг STLab.</p></article>
+            <article><span>Направления</span><p>ZrO2, E.MAX, титан, PMMA / керамокомпозит, навигационные шаблоны и съёмные конструкции.</p></article>
+            <article className="about-bento__cta"><button className="primary-button" type="button" onClick={onContact}>Связаться с нами</button></article>
           </div>
         </div>
       )}
 
       {panel === 'price' && (
-        <div className="detail-panel__body detail-panel__body--price">
-          <div className="detail-heading-row">
-            <div className="detail-kicker">Прайс лист</div>
-            <h2>Прайс лаборатории</h2>
-          </div>
-          <div className="full-price-list">
-            {sections.filter((section) => section.id !== 'hero').map((section) => (
-              <section className="price-group" key={section.id}>
-                <h3>{section.title}</h3>
-                <ol>
-                  {section.services.map((service) => (
-                    <li key={service.name}>
-                      <span>
-                        {service.name}
-                        {service.note && <small>{service.note}</small>}
-                      </span>
-                      <strong>{formatPrice(service.price)}</strong>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-            ))}
-          </div>
+        <div className="expanded-content expanded-content--price">
+          <div className="expanded-title"><span className="eyebrow">Прайс 2026</span><h2>Прайс лаборатории</h2></div>
+          <PriceList />
+        </div>
+      )}
+
+      {panel === 'works' && (
+        <div className="expanded-content expanded-content--works">
+          <div className="expanded-title"><span className="eyebrow">Материалы проекта</span><h2>Наши работы</h2></div>
+          <WorksSlider />
         </div>
       )}
 
       {panel === 'contacts' && (
-        <div className="detail-panel__body detail-panel__body--contacts">
-          <div>
-            <div className="detail-kicker">Контакты</div>
-            <h2>Мы в<br />Новосибирске</h2>
+        <div className="expanded-content expanded-content--contacts">
+          <div className="contacts-copy">
+            <span className="eyebrow">Контакты</span>
+            <h2>МЫ В<br />НОВОСИБИРСКЕ</h2>
+            <p>{contacts.name}</p>
+            <dl>
+              <div><dt>Адрес</dt><dd>{contacts.cityLine}<br />{contacts.address}</dd></div>
+              <div><dt>Телефон</dt><dd><a href={contacts.phoneHref}>{contacts.phoneDisplay}</a></dd></div>
+              <div><dt>Email</dt><dd><a href={`mailto:${contacts.email}`}>{contacts.email}</a></dd></div>
+            </dl>
+            <button className="primary-button" type="button" onClick={onContact}>Связаться с нами</button>
           </div>
-          <div className="contacts-plate">
-            <PinIcon />
-            <span>г. {contacts.city}, {contacts.postalCode}</span>
-            <span>{contacts.address}</span>
-            <a href={contacts.phoneHref}>{contacts.phoneDisplay}</a>
-            <a href={`mailto:${contacts.email}`}>{contacts.email}</a>
-            <ContactButton onClick={onContact} light />
+          <div className="map-shell">
+            <iframe title="Карта: STLab, Новосибирск, ул. Кирова, 276" loading="lazy" src="https://yandex.ru/map-widget/v1/?text=%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%2C%20276&z=16" />
           </div>
         </div>
       )}
@@ -234,65 +190,48 @@ function DetailPanel({
 }
 
 export default function App() {
-  const [panel, setPanel] = useState<PanelId | null>(null)
+  const [active, setActive] = useState<PanelId | null>(null)
   const [contactOpen, setContactOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  const openContact = () => setContactOpen(true)
+  const open = (id: PanelId) => { setMenuOpen(false); setActive(id) }
 
   return (
-    <main className="landing-page">
-      <PolygonField />
-      <section className="landing-grid" aria-label="STLab — цифровая зуботехническая лаборатория">
-        <header className="landing-topbar">
-          <nav className="landing-nav" aria-label="Основная навигация">
-            <button type="button" onClick={() => setPanel('about')}>О нас</button>
-            <button type="button" onClick={() => setPanel('works')}>Кейсы</button>
-            <button type="button" onClick={() => setPanel('price')}>Прайс</button>
-            <button type="button" onClick={() => setPanel('contacts')}>Контакты</button>
+    <LayoutGroup>
+      <main className="app-shell">
+        <div className="ambient ambient--one" aria-hidden="true" />
+        <div className="ambient ambient--two" aria-hidden="true" />
+        <header className="site-header">
+          <button className="header-logo" type="button" onClick={() => open('hero')} aria-label="Открыть STLab"><Logo compact /></button>
+          <nav className="desktop-nav" aria-label="Основная навигация">
+            <button onClick={() => open('about')}>О нас</button>
+            <button onClick={() => open('works')}>Кейсы</button>
+            <button onClick={() => open('price')}>Прайс</button>
+            <button onClick={() => open('contacts')}>Контакты</button>
           </nav>
-          <button className="landing-topbar__contact" type="button" onClick={openContact}>Связаться с нами</button>
+          <button className="header-cta" type="button" onClick={() => setContactOpen(true)}>Связаться с нами</button>
+          <button className="mobile-menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? '×' : 'Меню'}</button>
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.nav id="mobile-menu" className="mobile-nav" aria-label="Мобильная навигация" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+                <button onClick={() => open('about')}>О нас</button>
+                <button onClick={() => open('works')}>Кейсы</button>
+                <button onClick={() => open('price')}>Прайс</button>
+                <button onClick={() => open('contacts')}>Контакты</button>
+              </motion.nav>
+            )}
+          </AnimatePresence>
         </header>
 
-        <LandingTile className="landing-tile--hero" label="О нашей организации" onClick={() => setPanel('about')}>
-          <Logo compact />
-          <h1>Лаборатория<br />с особым подходом</h1>
-          <div className="hero-mesh" aria-hidden="true" />
-        </LandingTile>
+        <section className="bento-grid" aria-label="Разделы STLab">
+          {cards.map((card) => <BentoCard key={card.id} card={card} active={active} onOpen={() => open(card.id)} />)}
+        </section>
 
-        <LandingTile className="landing-tile--works" label="Наши работы" onClick={() => setPanel('works')}>
-          <h2>Наши<br />работы</h2>
-          <Specimen type="arch" />
-          <div className="works-link">Смотреть все <ArrowIcon /></div>
-        </LandingTile>
-
-        <LandingTile className="landing-tile--about" label="О нашей организации" onClick={() => setPanel('about')}>
-          <h2>О нашей<br />организации</h2>
-          <FolderVisual />
-        </LandingTile>
-
-        <LandingTile className="landing-tile--price" label="Прайс лаборатории" onClick={() => setPanel('price')}>
-          <h2>Прайс<br />лаборатории</h2>
-          <PriceVisual />
-        </LandingTile>
-
-        <LandingTile className="landing-tile--location" label="Мы в Новосибирске" onClick={() => setPanel('contacts')}>
-          <PinIcon />
-          <h2>Мы в Новосибирске</h2>
-        </LandingTile>
-      </section>
-
-      <AnimatePresence>
-        {panel && (
-          <DetailPanel
-            key={panel}
-            panel={panel}
-            onClose={() => setPanel(null)}
-            onContact={openContact}
-          />
-        )}
-      </AnimatePresence>
-
-      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
-    </main>
+        <AnimatePresence mode="sync">
+          {active && <ExpandedPanel key={active} panel={active} onClose={() => setActive(null)} onContact={() => setContactOpen(true)} />}
+        </AnimatePresence>
+        <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+      </main>
+    </LayoutGroup>
   )
 }
