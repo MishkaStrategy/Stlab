@@ -1,0 +1,266 @@
+/* 3D layer: keeps the five-block geometry, lifts copy to the top and replaces flat visuals with depth and motion. */
+
+.landing-grid {
+  perspective: 1400px;
+}
+
+.landing-tile {
+  transform-style: preserve-3d;
+  transition: box-shadow .32s ease, border-color .32s ease, filter .32s ease;
+  border: 1px solid rgba(255,255,255,.055);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 22px 48px rgba(0,0,0,.26);
+}
+
+.landing-tile:hover {
+  border-color: rgba(255,255,255,.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 30px 64px rgba(0,0,0,.34);
+}
+
+/* 1. Lift all visible card copy to the upper zone. */
+.landing-tile--hero {
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+.landing-tile--hero .brand-logo {
+  position: relative;
+  z-index: 5;
+  flex: 0 0 auto;
+}
+
+.landing-tile--hero h1 {
+  position: relative;
+  z-index: 5;
+  margin-top: 10px;
+}
+
+.landing-tile--works h2,
+.landing-tile--about h2,
+.landing-tile--price h2 {
+  position: relative;
+  z-index: 5;
+  margin-top: 0;
+}
+
+.landing-tile--location {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: clamp(38px, 4vw, 58px);
+}
+
+.landing-tile--location .pin-icon,
+.landing-tile--location h2 {
+  position: relative;
+  z-index: 5;
+}
+
+/* 2. Hero: faceted translucent dental form instead of an empty flat field. */
+.landing-tile--hero::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: -5%;
+  bottom: -18%;
+  width: min(48%, 430px);
+  aspect-ratio: .82;
+  clip-path: polygon(47% 0, 72% 7%, 94% 25%, 100% 49%, 89% 72%, 79% 100%, 60% 90%, 51% 62%, 40% 62%, 31% 91%, 12% 100%, 2% 72%, 0 47%, 9% 23%, 26% 7%);
+  background:
+    radial-gradient(circle at 37% 27%, rgba(255,255,255,.96) 0 7%, rgba(255,255,255,.52) 21%, transparent 42%),
+    linear-gradient(135deg, rgba(245,246,247,.78) 0%, rgba(117,125,132,.46) 38%, rgba(237,238,239,.86) 61%, rgba(67,75,82,.32) 100%);
+  border: 1px solid rgba(255,255,255,.42);
+  filter: drop-shadow(0 34px 32px rgba(0,0,0,.38));
+  opacity: .94;
+  transform: translateZ(48px) rotate(-8deg);
+  animation: stlabFloatHero 7.4s ease-in-out infinite;
+}
+
+.landing-tile--hero .hero-mesh {
+  z-index: 3;
+  mix-blend-mode: screen;
+}
+
+/* Works: make the existing dental object feel physical and hovering. */
+.landing-tile--works .specimen {
+  filter:
+    saturate(.58)
+    contrast(1.05)
+    brightness(1.11)
+    drop-shadow(0 34px 34px rgba(0,0,0,.48));
+  transform-origin: 58% 54%;
+  animation: stlabFloatWorks 9s ease-in-out infinite;
+}
+
+/* About / Price: push the existing SVGs into pseudo-3D instead of flat icons. */
+.folder-visual {
+  opacity: 1;
+  filter:
+    saturate(.92)
+    contrast(1.04)
+    drop-shadow(0 28px 24px rgba(0,0,0,.34));
+  transform-origin: 58% 74%;
+  transform: perspective(760px) rotateX(8deg) rotateY(-12deg) rotateZ(-2deg) translateZ(36px);
+  animation: stlabFloatFolder 6.6s ease-in-out infinite;
+}
+
+.price-visual {
+  opacity: .98;
+  filter:
+    grayscale(.2)
+    brightness(1.05)
+    contrast(1.04)
+    drop-shadow(0 30px 26px rgba(0,0,0,.34));
+  transform-origin: 55% 64%;
+  transform: perspective(780px) rotateX(12deg) rotateY(13deg) rotateZ(-4deg) translateZ(34px);
+  animation: stlabFloatPrice 7.2s ease-in-out infinite;
+}
+
+.landing-tile--about {
+  background:
+    radial-gradient(circle at 84% 76%, rgba(221,9,51,.12), transparent 28%),
+    linear-gradient(145deg, rgba(255,255,255,.42), rgba(255,255,255,.06) 46%, transparent 58%),
+    var(--legacy-mist);
+}
+
+.landing-tile--price {
+  background:
+    radial-gradient(circle at 70% 72%, rgba(255,255,255,.18), transparent 30%),
+    linear-gradient(145deg, rgba(255,255,255,.11), transparent 46%),
+    linear-gradient(180deg, #ed123f 0%, #c7072c 100%);
+}
+
+/* Location gets a small hovering 3D locator/radar object. */
+.landing-tile--location::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 8%;
+  bottom: -28%;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 35%, rgba(255,255,255,.82) 0 5%, rgba(221,9,51,.92) 7% 14%, rgba(221,9,51,.16) 15% 30%, transparent 31%),
+    radial-gradient(circle, transparent 0 45%, rgba(29,34,40,.16) 46% 47%, transparent 48% 62%, rgba(29,34,40,.1) 63% 64%, transparent 65%);
+  filter: drop-shadow(0 26px 28px rgba(0,0,0,.2));
+  transform: perspective(600px) rotateX(66deg) rotateZ(-8deg) translateZ(30px);
+  animation: stlabPulseMap 6s ease-in-out infinite;
+}
+
+/* Interaction: depth shifts without changing the current layout. */
+.landing-tile:hover .folder-visual,
+.landing-tile:hover .price-visual,
+.landing-tile:hover .specimen {
+  animation-play-state: paused;
+}
+
+.works-link,
+.landing-nav,
+.landing-topbar__contact {
+  box-shadow: 0 14px 32px rgba(0,0,0,.18);
+}
+
+.detail-panel {
+  box-shadow: 0 34px 92px rgba(0,0,0,.5);
+}
+
+.work-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 18px 34px rgba(0,0,0,.18);
+}
+
+.work-card .specimen {
+  filter: drop-shadow(0 26px 26px rgba(0,0,0,.28));
+  animation: stlabFloatWorkCard 7.6s ease-in-out infinite;
+}
+
+@keyframes stlabFloatHero {
+  0%, 100% { transform: translate3d(0,0,48px) rotate(-8deg); }
+  50% { transform: translate3d(-8px,-12px,62px) rotate(-5deg); }
+}
+
+@keyframes stlabFloatWorks {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-1deg); }
+  50% { transform: translate3d(-10px,-14px,0) rotate(2deg); }
+}
+
+@keyframes stlabFloatFolder {
+  0%, 100% { transform: perspective(760px) rotateX(8deg) rotateY(-12deg) rotateZ(-2deg) translate3d(0,0,36px); }
+  50% { transform: perspective(760px) rotateX(5deg) rotateY(-7deg) rotateZ(1deg) translate3d(-8px,-12px,48px); }
+}
+
+@keyframes stlabFloatPrice {
+  0%, 100% { transform: perspective(780px) rotateX(12deg) rotateY(13deg) rotateZ(-4deg) translate3d(0,0,34px); }
+  50% { transform: perspective(780px) rotateX(8deg) rotateY(8deg) rotateZ(-1deg) translate3d(-7px,-11px,48px); }
+}
+
+@keyframes stlabPulseMap {
+  0%, 100% { transform: perspective(600px) rotateX(66deg) rotateZ(-8deg) translate3d(0,0,30px) scale(1); opacity: .84; }
+  50% { transform: perspective(600px) rotateX(66deg) rotateZ(-4deg) translate3d(-7px,-10px,38px) scale(1.05); opacity: 1; }
+}
+
+@keyframes stlabFloatWorkCard {
+  0%, 100% { transform: translate3d(0,0,0) rotate(0); }
+  50% { transform: translate3d(0,-9px,0) rotate(-1deg); }
+}
+
+@media (max-width: 900px) {
+  .landing-tile {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.05),
+      0 14px 28px rgba(0,0,0,.22);
+  }
+
+  .landing-tile--hero {
+    gap: 8px;
+  }
+
+  .landing-tile--hero h1 {
+    margin-top: 4px;
+  }
+
+  .landing-tile--hero::before {
+    width: 43%;
+    right: -3%;
+    bottom: -22%;
+  }
+
+  .landing-tile--location {
+    padding-top: 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing-tile--hero::before {
+    width: 48%;
+    right: -12%;
+    bottom: -14%;
+    opacity: .8;
+  }
+
+  .folder-visual,
+  .price-visual {
+    opacity: .9;
+  }
+
+  .landing-tile--location::before {
+    width: 42%;
+    right: -4%;
+    bottom: -26%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-tile--hero::before,
+  .landing-tile--works .specimen,
+  .folder-visual,
+  .price-visual,
+  .landing-tile--location::before,
+  .work-card .specimen {
+    animation: none !important;
+  }
+}
