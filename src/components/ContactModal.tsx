@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { contacts } from '../data/services'
 import { Logo } from './Logo'
 import { PolygonField } from './PolygonField'
