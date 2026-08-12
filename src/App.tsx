@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from 'react'
+import { ArrowIcon } from './components/ArrowIcon'
 import { ContactModal } from './components/ContactModal'
 import { Logo } from './components/Logo'
 import { PolygonField } from './components/PolygonField'
@@ -9,7 +10,7 @@ import { contacts, formatPrice, sections, type LabSection } from './data/service
 function ContactButton({ onClick, dark = false }: { onClick: () => void; dark?: boolean }) {
   return (
     <button className={`cta ${dark ? 'cta--light' : ''}`} onClick={(event: MouseEvent<HTMLButtonElement>) => { event.stopPropagation(); onClick() }}>
-      Связаться с нами <span aria-hidden="true">↗</span>
+      Связаться с нами <ArrowIcon />
     </button>
   )
 }
