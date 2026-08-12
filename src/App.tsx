@@ -40,12 +40,19 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
 
   const escaping = active !== null
   return (
-    <motion.button
+    <motion.article
       layoutId={`bento-${card.id}`}
-      type="button"
+      role="button"
+      tabIndex={0}
       className={`bento-card ${card.className}`}
       aria-label={card.aria}
       onClick={onOpen}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          onOpen()
+        }
+      }}
       animate={escaping && !reduceMotion ? { x: card.escape.x ?? 0, y: card.escape.y ?? 0, opacity: 0, scale: .94 } : { x: 0, y: 0, opacity: 1, scale: 1 }}
       transition={{ duration: reduceMotion ? .01 : .58, ease: [0.22, 1, 0.36, 1] }}
       whileTap={reduceMotion ? undefined : { scale: .985 }}
@@ -67,7 +74,7 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
       <DentalObject variant={card.variant} />
       {card.id === 'works' && <span className="glass-button">Смотреть все <Arrow /></span>}
       {card.id === 'contacts' && <span className="location-meta">Кирова, 276 <Arrow /></span>}
-    </motion.button>
+    </motion.article>
   )
 }
 
