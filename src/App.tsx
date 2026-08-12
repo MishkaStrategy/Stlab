@@ -67,7 +67,7 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
       ) : (
         <div className="bento-card__copy">
           <h2>{card.title}</h2>
-          {card.id !== 'contacts' && <span className="card-link">Открыть <Arrow /></span>}
+          {card.id !== 'contacts' && <span className="card-link">Подробнее <Arrow /></span>}
         </div>
       )}
       {card.id === 'works' && <img className="works-card-photo" src={`${import.meta.env.BASE_URL}stlab-work-01.jpg`} alt="" aria-hidden="true" />}
@@ -136,7 +136,7 @@ function ExpandedPanel({ panel, onClose, onContact }: { panel: PanelId; onClose:
 
       {panel === 'hero' && (
         <div className="expanded-content expanded-content--hero">
-          <span className="eyebrow">STLab · Новосибирск</span>
+          <span className="eyebrow">STLab — Новосибирск</span>
           <h2>Цифровая зуботехническая лаборатория</h2>
           <p>STLab работает с цифровыми диагностическими услугами, изделиями из ZrO2, PMMA и керамокомпозита, Ivoclar IPS E.MAX, титаном, навигационными протоколами и съёмными конструкциями.</p>
           <div className="advantages">
@@ -169,7 +169,7 @@ function ExpandedPanel({ panel, onClose, onContact }: { panel: PanelId; onClose:
 
       {panel === 'works' && (
         <div className="expanded-content expanded-content--works">
-          <div className="expanded-title"><span className="eyebrow">Материалы проекта</span><h2>Наши работы</h2></div>
+          <div className="expanded-title"><span className="eyebrow">Портфолио</span><h2>Наши работы</h2></div>
           <WorksSlider />
         </div>
       )}
@@ -211,20 +211,20 @@ export default function App() {
         <header className="site-header">
           <button className="header-logo" type="button" onClick={() => open('hero')} aria-label="Открыть STLab"><Logo compact /></button>
           <nav className="desktop-nav" aria-label="Основная навигация">
-            <button onClick={() => open('about')}>О нас</button>
-            <button onClick={() => open('works')}>Кейсы</button>
-            <button onClick={() => open('price')}>Прайс</button>
-            <button onClick={() => open('contacts')}>Контакты</button>
+            <button aria-pressed={active === 'about'} onClick={() => open('about')}>О нас</button>
+            <button aria-pressed={active === 'works'} onClick={() => open('works')}>Кейсы</button>
+            <button aria-pressed={active === 'price'} onClick={() => open('price')}>Прайс</button>
+            <button aria-pressed={active === 'contacts'} onClick={() => open('contacts')}>Контакты</button>
           </nav>
-          <button className="header-cta" type="button" onClick={() => setContactOpen(true)}>Связаться с нами</button>
+          <button className="header-cta" type="button" onClick={() => setContactOpen(true)}><span className="header-cta__wide">Связаться с нами</span><span className="header-cta__short">Связаться</span></button>
           <button className="mobile-menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? '×' : 'Меню'}</button>
           <AnimatePresence>
             {menuOpen && (
               <motion.nav id="mobile-menu" className="mobile-nav" aria-label="Мобильная навигация" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-                <button onClick={() => open('about')}>О нас</button>
-                <button onClick={() => open('works')}>Кейсы</button>
-                <button onClick={() => open('price')}>Прайс</button>
-                <button onClick={() => open('contacts')}>Контакты</button>
+                <button aria-pressed={active === 'about'} onClick={() => open('about')}>О нас</button>
+                <button aria-pressed={active === 'works'} onClick={() => open('works')}>Кейсы</button>
+                <button aria-pressed={active === 'price'} onClick={() => open('price')}>Прайс</button>
+                <button aria-pressed={active === 'contacts'} onClick={() => open('contacts')}>Контакты</button>
               </motion.nav>
             )}
           </AnimatePresence>
