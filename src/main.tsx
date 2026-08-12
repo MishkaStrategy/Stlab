@@ -6,6 +6,7 @@ import './mobile-compact.css'
 import './source-labels.css'
 import './reference-layout.css'
 import './previous-design.css'
+import './three-d-theme.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
