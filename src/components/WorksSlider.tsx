@@ -4,46 +4,43 @@ const base = import.meta.env.BASE_URL
 
 const slides = [
   {
-    kind: 'image' as const,
     src: `${base}stlab-work-01.jpg`,
     title: 'Работа STLab',
-    description: 'Фотография зуботехнической работы из материалов проекта STLab.',
-  },
-  {
-    kind: 'image' as const,
-    src: `${base}stlab-work-01.jpg`,
-    title: 'Фрагмент работы',
-    description: 'Увеличенная деталь изображения из материалов проекта. Медицинские детали не добавлены без подтверждённого описания.',
+    description: 'Фотография из портфолио STLab.',
   },
 ]
 
 export function WorksSlider() {
   const ref = useRef<HTMLDivElement>(null)
   const drag = useRef<{ active: boolean; startX: number; scrollLeft: number }>({ active: false, startX: 0, scrollLeft: 0 })
+  const hasMultipleSlides = slides.length > 1
+
   const move = (direction: 1 | -1) => {
     const node = ref.current
-    if (!node) return
+    if (!node || !hasMultipleSlides) return
     node.scrollBy({ left: direction * node.clientWidth * .86, behavior: 'smooth' })
   }
 
   return (
-    <div className="works-slider-shell">
-      <div className="works-slider-controls" aria-label="Навигация по работам">
-        <button className="icon-button" type="button" onClick={() => move(-1)} aria-label="Предыдущая работа">←</button>
-        <button className="icon-button" type="button" onClick={() => move(1)} aria-label="Следующая работа">→</button>
-      </div>
+    <div className={`works-slider-shell ${hasMultipleSlides ? '' : 'works-slider-shell--single'}`}>
+      {hasMultipleSlides && (
+        <div className="works-slider-controls" aria-label="Навигация по работам">
+          <button className="icon-button" type="button" onClick={() => move(-1)} aria-label="Предыдущая работа">←</button>
+          <button className="icon-button" type="button" onClick={() => move(1)} aria-label="Следующая работа">→</button>
+        </div>
+      )}
       <div
         className="works-slider"
         ref={ref}
-        tabIndex={0}
+        tabIndex={hasMultipleSlides ? 0 : -1}
         onPointerDown={(event) => {
-          if (event.pointerType !== 'mouse' || event.button !== 0) return
+          if (!hasMultipleSlides || event.pointerType !== 'mouse' || event.button !== 0) return
           drag.current = { active: true, startX: event.clientX, scrollLeft: event.currentTarget.scrollLeft }
           event.currentTarget.setPointerCapture(event.pointerId)
           event.currentTarget.style.cursor = 'grabbing'
         }}
         onPointerMove={(event) => {
-          if (!drag.current.active || event.pointerType !== 'mouse') return
+          if (!hasMultipleSlides || !drag.current.active || event.pointerType !== 'mouse') return
           event.currentTarget.scrollLeft = drag.current.scrollLeft - (event.clientX - drag.current.startX)
         }}
         onPointerUp={(event) => {
@@ -61,19 +58,18 @@ export function WorksSlider() {
           if (event.key === 'ArrowRight') move(1)
         }}
         onWheel={(event) => {
-          if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-            event.currentTarget.scrollLeft += event.deltaY
-          }
+          if (!hasMultipleSlides) return
+          if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) event.currentTarget.scrollLeft += event.deltaY
         }}
         aria-label="Галерея работ STLab"
       >
-        {slides.map((slide, index) => (
-          <article className="work-slide" key={`${slide.title}-${index}`}>
+        {slides.map((slide) => (
+          <article className="work-slide" key={slide.src}>
             <div className="work-slide__media">
-              <img className={index === 1 ? 'work-image work-image--detail' : 'work-image'} src={slide.src} alt="Зуботехническая работа STLab из материалов проекта" loading={index === 0 ? 'eager' : 'lazy'} />
+              <img className="work-image" src={slide.src} alt="Зуботехническая работа STLab из портфолио" loading="eager" />
             </div>
             <div className="work-slide__copy">
-              <span className="eyebrow">Материал {String(index + 1).padStart(2, '0')}</span>
+              <span className="eyebrow">Портфолио</span>
               <h3>{slide.title}</h3>
               <p>{slide.description}</p>
             </div>
