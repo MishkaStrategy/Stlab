@@ -1,0 +1,223 @@
+/* Compact mobile composition layered after the base stylesheet. */
+@media (max-width: 760px) {
+  .bento-grid {
+    padding: 16px 4px max(6px, env(safe-area-inset-bottom));
+    grid-auto-rows: minmax(145px, auto);
+    gap: 2px;
+  }
+
+  .bento-card {
+    min-height: 172px;
+    padding: 12px;
+  }
+
+  .bento-card--hero {
+    min-height: clamp(390px, 52svh, 500px);
+  }
+
+  .bento-card--pmma {
+    min-height: 190px;
+  }
+
+  .bento-card--navigation {
+    min-height: 230px;
+  }
+
+  .bento-card--removable {
+    min-height: 220px;
+  }
+
+  .card-no,
+  .tech-caption,
+  .eyebrow,
+  .expanded-panel__meta,
+  .visual-coordinates {
+    font-size: 7px;
+  }
+
+  .card-no { top: 10px; left: 10px; }
+  .tech-caption { top: 10px; right: 10px; }
+
+  .card-content {
+    max-width: 88%;
+    padding-top: 26px;
+  }
+
+  .card-content h2 {
+    font-size: clamp(21px, 6.7vw, 38px);
+    line-height: .88;
+  }
+
+  .card-content p {
+    margin-top: 7px;
+    max-width: 24ch;
+    font-size: 9.5px;
+    line-height: 1.18;
+  }
+
+  .bento-card--diagnostics .card-content h2,
+  .bento-card--zro2 .card-content h2,
+  .bento-card--emax .card-content h2,
+  .bento-card--titanium .card-content h2 {
+    font-size: clamp(18px, 5.8vw, 29px);
+  }
+
+  .bento-card--hero .brand-logo {
+    width: min(86%, 360px);
+    margin-top: 0;
+  }
+
+  .brand-logo__caption {
+    font-size: 8.4px;
+    letter-spacing: 1.7px;
+  }
+
+  .card-footer {
+    left: 10px;
+    right: 10px;
+    bottom: 9px;
+    gap: 4px;
+  }
+
+  .card-footer .cta {
+    min-height: 34px;
+    padding-block: 6px;
+  }
+
+  .preview-price { font-size: 8px; }
+
+  .bento-card--diagnostics .cta,
+  .bento-card--zro2 .cta,
+  .bento-card--emax .cta,
+  .bento-card--titanium .cta {
+    min-width: 34px;
+    width: 34px;
+    min-height: 34px;
+  }
+
+  .arrow-icon {
+    width: 20px;
+    height: 10px;
+  }
+
+  .bento-card--hero .specimen {
+    width: 80%;
+    right: -25%;
+    bottom: -7%;
+  }
+
+  .bento-card--navigation .specimen {
+    width: 68%;
+    right: -10%;
+    bottom: -22%;
+  }
+
+  .bento-card--removable .specimen {
+    width: 55%;
+    right: -4%;
+    bottom: -15%;
+  }
+
+  .crosshair {
+    width: 20px;
+    height: 20px;
+  }
+
+  .expanded-panel { inset: 4px; }
+  .expanded-panel__chrome { height: 46px; padding: 6px 8px; }
+  .expanded-panel__meta { gap: 12px; }
+  .icon-button { width: 36px; height: 36px; font-size: 29px; }
+  .expanded-panel__content { min-height: calc(100svh - 46px); }
+  .expanded-panel__visual { height: 25svh; min-height: 160px; }
+  .expanded-panel__visual .specimen { width: min(74vw, 380px); }
+  .expanded-panel__visual::before { width: 50vw; right: 25vw; }
+  .expanded-panel__left { padding: 12px 12px max(14px, env(safe-area-inset-bottom)); }
+  .expanded-panel__left .eyebrow { margin-bottom: 10px; }
+  .expanded-panel__left h1 {
+    margin-bottom: 14px;
+    font-size: clamp(38px, 12vw, 60px);
+  }
+  .expanded-panel__left .brand-logo { width: 86%; margin: 0 0 12px; }
+  .hero-expanded-copy > p { margin-bottom: 14px; font-size: 16px; }
+  .hero-location { font-size: 11px; gap: 3px; }
+  .price-list { margin-bottom: 14px; }
+  .price-list li { gap: 6px; padding: 7px 0; }
+  .price-list__name { font-size: 11.5px; }
+  .price-list__name small { margin-top: 2px; font-size: 7.5px; }
+  .price-list strong { font-size: 11.5px; }
+  .expanded-panel__left > .cta {
+    min-height: 42px;
+    margin-top: 12px;
+  }
+
+  .contact-modal__chrome { height: 54px; padding: 8px 10px; }
+  .contact-modal__chrome .brand-logo { width: 112px; }
+  .contact-modal__grid {
+    min-height: calc(100svh - 54px);
+    padding: 12px 12px max(16px, env(safe-area-inset-bottom));
+  }
+  .contact-modal__intro h2 {
+    margin: 6px 0 12px;
+    font-size: clamp(40px, 13vw, 62px);
+  }
+  .contact-modal__intro p { font-size: 10.5px; line-height: 1.3; }
+  .contact-modal__direct { margin-top: 14px; gap: 4px; font-size: 12px; }
+  .contact-form { margin-top: 24px; gap: 9px; }
+  .contact-form input,
+  .contact-form textarea {
+    min-height: 40px;
+    font-size: 16px;
+  }
+  .contact-form__submit { min-height: 42px; margin-top: 8px; }
+}
+
+@media (max-width: 420px) {
+  /* Keep the compact two-column bento instead of turning every card into a full-width row. */
+  .bento-grid {
+    grid-template-columns: 1fr 1fr;
+    padding-inline: 3px;
+  }
+
+  .bento-card--hero { grid-column: 1 / 3; min-height: clamp(350px, 48svh, 420px); }
+  .bento-card--diagnostics { grid-column: 1 / 2; min-height: 156px; }
+  .bento-card--zro2 { grid-column: 2 / 3; min-height: 156px; }
+  .bento-card--pmma { grid-column: 1 / 3; min-height: 176px; }
+  .bento-card--emax { grid-column: 1 / 2; min-height: 156px; }
+  .bento-card--titanium { grid-column: 2 / 3; min-height: 156px; }
+  .bento-card--navigation { grid-column: 1 / 3; min-height: 205px; }
+  .bento-card--removable { grid-column: 1 / 3; min-height: 195px; }
+
+  .bento-card--diagnostics .preview-price,
+  .bento-card--zro2 .preview-price,
+  .bento-card--emax .preview-price,
+  .bento-card--titanium .preview-price {
+    display: none;
+  }
+
+  .bento-card--diagnostics .cta,
+  .bento-card--zro2 .cta,
+  .bento-card--emax .cta,
+  .bento-card--titanium .cta {
+    font-size: 0;
+    min-width: 32px;
+    width: 32px;
+    min-height: 32px;
+    margin-left: auto;
+    border-bottom: 0;
+  }
+
+  .bento-card--diagnostics .cta .arrow-icon,
+  .bento-card--zro2 .cta .arrow-icon,
+  .bento-card--emax .cta .arrow-icon,
+  .bento-card--titanium .cta .arrow-icon {
+    width: 18px;
+    height: 9px;
+  }
+
+  .card-content { padding-top: 23px; }
+  .card-content p { font-size: 9px; }
+  .bento-card--hero .brand-logo { width: 88%; }
+  .bento-card--hero .specimen { width: 76%; right: -24%; }
+  .bento-card--navigation .specimen { width: 64%; }
+  .bento-card--removable .specimen { width: 52%; }
+}
