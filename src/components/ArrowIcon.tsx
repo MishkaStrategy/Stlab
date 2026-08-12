@@ -7,6 +7,13 @@ export function ArrowIcon({ className = '' }: ArrowIconProps) {
     <svg
       className={`arrow-icon ${className}`}
       viewBox="0 0 24 12"
+      width="24"
+      height="12"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="square"
+      strokeLinejoin="miter"
       aria-hidden="true"
       focusable="false"
     >
