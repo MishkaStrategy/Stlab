@@ -1,14 +1,77 @@
+import { useId } from 'react'
+
 export type DentalObjectVariant = 'hero' | 'about' | 'price' | 'works' | 'contacts'
 
 export function DentalObject({ variant, expanded = false }: { variant: DentalObjectVariant; expanded?: boolean }) {
+  const uid = useId().replace(/:/g, '')
+  const ceramic = `ceramic-${uid}`
+  const glass = `glass-${uid}`
+  const chrome = `chrome-${uid}`
+
   return (
     <div className={`dental-object dental-object--${variant} ${expanded ? 'is-expanded' : ''}`} aria-hidden="true">
-      <span className="dental-object__halo" />
-      <span className="dental-object__core" />
-      <span className="dental-object__ring dental-object__ring--one" />
-      <span className="dental-object__ring dental-object__ring--two" />
-      <span className="dental-object__detail dental-object__detail--one" />
-      <span className="dental-object__detail dental-object__detail--two" />
+      <svg className="dental-object__svg" viewBox="0 0 160 160" focusable="false">
+        <defs>
+          <linearGradient id={ceramic} x1="18" y1="18" x2="142" y2="142" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#f8fcff" />
+            <stop offset="0.42" stopColor="#c7d7e3" />
+            <stop offset="1" stopColor="#496b84" />
+          </linearGradient>
+          <linearGradient id={glass} x1="28" y1="22" x2="132" y2="142" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#e9f8ff" stopOpacity="0.92" />
+            <stop offset="0.5" stopColor="#7eb5d7" stopOpacity="0.5" />
+            <stop offset="1" stopColor="#1d4a69" stopOpacity="0.72" />
+          </linearGradient>
+          <linearGradient id={chrome} x1="20" y1="20" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="0.28" stopColor="#aebfcb" />
+            <stop offset="0.56" stopColor="#eef5f8" />
+            <stop offset="1" stopColor="#657783" />
+          </linearGradient>
+        </defs>
+
+        {variant === 'hero' && (
+          <>
+            <path d="M42 45C47 27 61 18 78 24c10 4 13 4 23 0 17-6 31 3 36 21 7 26-4 70-18 89-6 8-13 7-17-4l-9-24c-3-8-13-8-16 0l-9 24c-4 11-11 12-17 4-14-19-25-63-19-89Z" fill={`url(#${ceramic})`} />
+            <path d="M53 47c8-13 19-16 31-10 8 4 14 4 23 0 10-5 19-3 27 7" fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="3" />
+            <path d="M63 76c14-10 30-11 49-2" fill="none" stroke="#8fc8e9" strokeOpacity="0.55" strokeWidth="2" />
+          </>
+        )}
+
+        {variant === 'about' && (
+          <>
+            <path d="M80 20 136 53 123 119 80 143 34 116 24 56 80 20Z" fill={`url(#${glass})`} />
+            <path d="m80 20 0 123M24 56l112-3M34 116l89 3M24 56l99 63M136 53 34 116" fill="none" stroke="#e9f8ff" strokeOpacity="0.45" strokeWidth="1.4" />
+            <circle cx="80" cy="20" r="5" fill="#f6fbff" /><circle cx="136" cy="53" r="5" fill="#d8eefb" /><circle cx="123" cy="119" r="5" fill="#9ec7df" /><circle cx="34" cy="116" r="5" fill="#b8d7e8" />
+          </>
+        )}
+
+        {variant === 'price' && (
+          <>
+            <path d="m36 42 75-20 22 23-76 22-21-25Z" fill={`url(#${chrome})`} />
+            <path d="m28 72 76-20 27 27-78 22-25-29Z" fill={`url(#${ceramic})`} />
+            <path d="m24 105 78-21 31 30-81 23-28-32Z" fill={`url(#${glass})`} />
+            <path d="m46 47 53-14M42 79l53-14M39 112l54-15" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="2" />
+          </>
+        )}
+
+        {variant === 'works' && (
+          <>
+            <path d="M27 93c9-38 31-58 53-58s44 20 53 58c-13 24-31 36-53 36S40 117 27 93Z" fill={`url(#${ceramic})`} />
+            <path d="M42 91c12-24 24-34 38-34 15 0 28 10 39 34-10 14-23 21-39 21-15 0-28-7-38-21Z" fill="#0d2435" fillOpacity="0.34" />
+            <path d="M40 78c17-17 31-23 40-23 11 0 26 7 41 24" fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="3" />
+          </>
+        )}
+
+        {variant === 'contacts' && (
+          <>
+            <path d="M80 18c29 0 52 23 52 52 0 38-52 74-52 74S28 108 28 70c0-29 23-52 52-52Z" fill={`url(#${glass})`} />
+            <circle cx="80" cy="69" r="22" fill="#eef8fd" fillOpacity="0.84" />
+            <circle cx="80" cy="69" r="10" fill="#5f96b7" fillOpacity="0.82" />
+            <path d="M55 43c15-14 35-18 54-5" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="3" />
+          </>
+        )}
+      </svg>
     </div>
   )
 }
