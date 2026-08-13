@@ -39,6 +39,8 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
   if (active === card.id) return <div className={`bento-placeholder ${card.className}`} aria-hidden="true" />
 
   const escaping = active !== null
+  const isWorks = card.id === 'works'
+
   return (
     <motion.article
       layoutId={`bento-${card.id}`}
@@ -66,15 +68,13 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
             <h1>Лаборатория<br />с особым подходом</h1>
           </div>
         </>
-      ) : (
+      ) : !isWorks ? (
         <div className="bento-card__copy">
           <h2>{card.title}</h2>
           {card.id !== 'contacts' && <span className="card-link">Подробнее <Arrow /></span>}
         </div>
-      )}
-      {card.id === 'works' && <img className="works-card-photo" src={`${import.meta.env.BASE_URL}stlab-work-01.jpg`} alt="" aria-hidden="true" />}
-      <DentalObject variant={card.variant} />
-      {card.id === 'works' && <span className="glass-button">Смотреть все <Arrow /></span>}
+      ) : null}
+      {!isWorks && <DentalObject variant={card.variant} />}
       {card.id === 'contacts' && <span className="location-meta">Кирова, 276 <Arrow /></span>}
     </motion.article>
   )
