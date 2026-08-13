@@ -9,3 +9,7 @@
   background: transparent;
   pointer-events: none;
 }
+
+.card-link {
+  display: none !important;
+}
