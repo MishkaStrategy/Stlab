@@ -149,9 +149,9 @@ export function WorksSlider() {
               {slide.variant === 'emax' ? (
                 <img
                   className="work-image work-image--emax"
-                  src={`${base}stlab-emax.jpg`}
+                  src={`${base}stlab-emax.jpg?v=emax-20260813-2`}
                   alt={slide.aria}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   style={{ objectPosition: 'center 54%' }}
                 />
