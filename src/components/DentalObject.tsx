@@ -2,6 +2,8 @@ import { useId } from 'react'
 
 export type DentalObjectVariant = 'hero' | 'about' | 'price' | 'works' | 'contacts'
 
+const toothPath = 'M42 45C47 27 61 18 78 24c10 4 13 4 23 0 17-6 31 3 36 21 7 26-4 70-18 89-6 8-13 7-17-4l-9-24c-3-8-13-8-16 0l-9 24c-4 11-11 12-17 4-14-19-25-63-19-89Z'
+
 export function DentalObject({ variant, expanded = false }: { variant: DentalObjectVariant; expanded?: boolean }) {
   const uid = useId().replace(/:/g, '')
   const ceramic = `ceramic-${uid}`
@@ -32,7 +34,7 @@ export function DentalObject({ variant, expanded = false }: { variant: DentalObj
 
         {variant === 'hero' && (
           <>
-            <path d="M42 45C47 27 61 18 78 24c10 4 13 4 23 0 17-6 31 3 36 21 7 26-4 70-18 89-6 8-13 7-17-4l-9-24c-3-8-13-8-16 0l-9 24c-4 11-11 12-17 4-14-19-25-63-19-89Z" fill={`url(#${ceramic})`} />
+            <path d={toothPath} fill={`url(#${ceramic})`} />
             <path d="M53 47c8-13 19-16 31-10 8 4 14 4 23 0 10-5 19-3 27 7" fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="3" />
             <path d="M63 76c14-10 30-11 49-2" fill="none" stroke="#8fc8e9" strokeOpacity="0.55" strokeWidth="2" />
           </>
@@ -57,9 +59,17 @@ export function DentalObject({ variant, expanded = false }: { variant: DentalObj
 
         {variant === 'works' && (
           <>
-            <path d="M27 93c9-38 31-58 53-58s44 20 53 58c-13 24-31 36-53 36S40 117 27 93Z" fill={`url(#${ceramic})`} />
-            <path d="M42 91c12-24 24-34 38-34 15 0 28 10 39 34-10 14-23 21-39 21-15 0-28-7-38-21Z" fill="#0d2435" fillOpacity="0.34" />
-            <path d="M40 78c17-17 31-23 40-23 11 0 26 7 41 24" fill="none" stroke="#ffffff" strokeOpacity="0.6" strokeWidth="3" />
+            <g transform="translate(2 26) scale(.62)">
+              <path d={toothPath} fill={`url(#${glass})`} opacity=".72" />
+            </g>
+            <g transform="translate(42 9) scale(.72)">
+              <path d={toothPath} fill={`url(#${ceramic})`} />
+              <path d="M54 47c7-11 18-14 30-9 7 3 13 3 21-1 10-4 19-2 26 6" fill="none" stroke="#ffffff" strokeOpacity=".58" strokeWidth="3" />
+            </g>
+            <g transform="translate(82 30) scale(.56)">
+              <path d={toothPath} fill={`url(#${chrome})`} opacity=".82" />
+            </g>
+            <path d="M28 126c33 9 70 9 104 0" fill="none" stroke="#cfe9f7" strokeOpacity=".42" strokeWidth="2" />
           </>
         )}
 
