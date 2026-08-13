@@ -14,3 +14,23 @@
 .card-link {
   display: none !important;
 }
+
+/* Keep the price title inside its own column on desktop. */
+@media (min-width: 821px) {
+  .expanded-content--price {
+    grid-template-columns: minmax(320px, .72fr) minmax(0, 1.28fr);
+  }
+
+  .expanded-content--price .expanded-title {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .expanded-content--price .expanded-title h2 {
+    max-width: 100%;
+    font-size: clamp(38px, 4vw, 64px);
+    line-height: .96;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
