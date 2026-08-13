@@ -1,0 +1,242 @@
+.work-slide:nth-child(2) .work-slide__media,
+.work-slide:nth-child(3) .work-slide__media {
+  background-image: none !important;
+  background-color: #06101a;
+}
+
+.work-texture {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 68% 28%, rgba(86, 155, 198, .16), transparent 34%),
+    radial-gradient(circle at 24% 72%, rgba(26, 84, 120, .13), transparent 38%),
+    linear-gradient(145deg, #081725 0%, #06111c 46%, #040b12 100%);
+}
+
+.work-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .28;
+  background-image:
+    linear-gradient(rgba(121, 174, 208, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(121, 174, 208, .08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(135deg, rgba(0,0,0,.85), transparent 72%);
+}
+
+.work-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(1, 8, 14, .22) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 26%, rgba(0,0,0,.18));
+}
+
+/* IPS E.MAX — translucent ceramic / liquid glass composition */
+.emax-halo {
+  position: absolute;
+  width: 54%;
+  aspect-ratio: 1;
+  left: 23%;
+  top: 13%;
+  border: 1px solid rgba(167, 214, 239, .24);
+  border-radius: 50%;
+  box-shadow: 0 0 70px rgba(55, 133, 184, .08) inset;
+  transform: rotate(-14deg);
+}
+
+.emax-halo--b {
+  width: 38%;
+  left: 37%;
+  top: 25%;
+  opacity: .55;
+  transform: rotate(22deg);
+}
+
+.emax-plate {
+  position: absolute;
+  width: 34%;
+  height: 54%;
+  left: 34%;
+  top: 18%;
+  border: 1px solid rgba(211, 236, 249, .38);
+  border-radius: 42% 48% 44% 38% / 34% 38% 56% 60%;
+  background:
+    linear-gradient(145deg, rgba(245, 251, 255, .8), rgba(180, 211, 227, .22) 40%, rgba(70, 127, 160, .09) 72%),
+    radial-gradient(circle at 30% 18%, rgba(255,255,255,.8), transparent 28%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    inset -18px -26px 48px rgba(33, 86, 119, .16),
+    0 28px 70px rgba(0,0,0,.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: rotate(9deg);
+}
+
+.emax-plate--back {
+  left: 24%;
+  top: 27%;
+  width: 31%;
+  height: 48%;
+  opacity: .4;
+  transform: rotate(-17deg) scale(.94);
+}
+
+.emax-plate--front {
+  left: 46%;
+  top: 30%;
+  width: 28%;
+  height: 43%;
+  opacity: .58;
+  transform: rotate(19deg) scale(.9);
+}
+
+.emax-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(118, 199, 242, .72), transparent);
+  transform-origin: left center;
+}
+
+.emax-line--1 { width: 62%; left: 13%; top: 31%; transform: rotate(-12deg); }
+.emax-line--2 { width: 51%; left: 22%; top: 63%; transform: rotate(9deg); opacity: .72; }
+.emax-line--3 { width: 38%; left: 47%; top: 20%; transform: rotate(34deg); opacity: .48; }
+
+.emax-node {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(122, 204, 247, .9);
+  box-shadow: 0 0 18px rgba(87, 183, 235, .5);
+}
+
+.emax-node--1 { left: 23%; top: 28%; }
+.emax-node--2 { left: 64%; top: 57%; }
+.emax-node--3 { left: 76%; top: 31%; opacity: .7; }
+
+.emax-floor {
+  position: absolute;
+  width: 72%;
+  height: 24%;
+  left: 14%;
+  bottom: -5%;
+  border-radius: 50%;
+  border-top: 1px solid rgba(83, 153, 196, .2);
+  background: radial-gradient(ellipse at center, rgba(16, 48, 70, .24), transparent 68%);
+  transform: perspective(500px) rotateX(68deg);
+}
+
+/* Implant prosthesis — titanium modules + CAD arch */
+.prosthesis-arch {
+  position: absolute;
+  left: 20%;
+  top: 22%;
+  width: 62%;
+  height: 49%;
+  border: 16px solid rgba(209, 228, 238, .48);
+  border-bottom-width: 10px;
+  border-radius: 50% 50% 44% 44% / 36% 36% 70% 70%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 0 44px rgba(96, 164, 203, .08);
+  transform: rotate(-4deg);
+}
+
+.prosthesis-arch--inner {
+  left: 29%;
+  top: 31%;
+  width: 44%;
+  height: 31%;
+  border-width: 2px;
+  border-color: rgba(95, 176, 225, .34);
+  opacity: .9;
+  transform: rotate(5deg);
+}
+
+.implant-pin {
+  position: absolute;
+  width: 6.5%;
+  height: 31%;
+  top: 38%;
+  border: 1px solid rgba(226, 239, 247, .55);
+  border-radius: 8px 8px 12px 12px;
+  background:
+    repeating-linear-gradient(180deg, rgba(255,255,255,.48) 0 4px, rgba(73, 104, 123, .24) 4px 8px),
+    linear-gradient(90deg, #3d5260 0%, #eef4f7 24%, #6f8796 48%, #e8f0f4 68%, #314653 100%);
+  box-shadow: 0 18px 36px rgba(0,0,0,.38);
+}
+
+.implant-pin::before {
+  content: '';
+  position: absolute;
+  left: -18%;
+  top: -11%;
+  width: 136%;
+  height: 18%;
+  border-radius: 50%;
+  border: 1px solid rgba(222, 239, 249, .58);
+  background: radial-gradient(circle, #09131b 0 28%, #b9c9d2 30% 46%, #466171 48% 100%);
+}
+
+.implant-pin--1 { left: 28%; transform: rotate(-9deg); }
+.implant-pin--2 { left: 46%; top: 42%; transform: rotate(-2deg); }
+.implant-pin--3 { left: 64%; transform: rotate(8deg); }
+
+.prosthesis-scan {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(83, 187, 239, .72), transparent);
+  box-shadow: 0 110px 0 rgba(83, 187, 239, .12), 0 220px 0 rgba(83, 187, 239, .08);
+}
+
+.prosthesis-ring {
+  position: absolute;
+  width: 18%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(106, 184, 226, .22);
+}
+
+.prosthesis-ring--1 { left: 8%; top: 10%; }
+.prosthesis-ring--2 { right: 7%; bottom: 8%; width: 26%; }
+
+@media (max-width: 700px) {
+  .work-texture::before { background-size: 32px 32px; }
+  .emax-plate { width: 42%; left: 30%; top: 17%; }
+  .emax-plate--back { left: 18%; width: 38%; }
+  .emax-plate--front { left: 49%; width: 34%; }
+  .prosthesis-arch { left: 13%; width: 74%; }
+  .prosthesis-arch--inner { left: 24%; width: 54%; }
+  .implant-pin { width: 8%; }
+  .implant-pin--1 { left: 24%; }
+  .implant-pin--2 { left: 46%; }
+  .implant-pin--3 { left: 68%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .emax-plate { animation: work-float 7s ease-in-out infinite; }
+  .emax-plate--back { animation-delay: -2.4s; }
+  .emax-plate--front { animation-delay: -4.6s; }
+  .prosthesis-arch { animation: work-breathe 8s ease-in-out infinite; }
+}
+
+@keyframes work-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+
+@keyframes work-breathe {
+  0%, 100% { scale: 1; opacity: .9; }
+  50% { scale: 1.015; opacity: 1; }
+}
