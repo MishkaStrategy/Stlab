@@ -1,0 +1,153 @@
+.brand-lockup {
+  position: relative;
+  z-index: 7;
+  overflow: visible;
+}
+
+.brand-wordmark {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  width: max-content;
+  color: #f6f9fc;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 650;
+  line-height: .82;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+  isolation: isolate;
+}
+
+.brand-lockup--compact .brand-wordmark {
+  font-size: clamp(25px, 2.3vw, 34px);
+}
+
+.brand-wordmark__st,
+.brand-wordmark__l,
+.brand-wordmark__ab {
+  position: relative;
+  display: inline-block;
+}
+
+.brand-wordmark__l {
+  margin-left: .02em;
+}
+
+.brand-wordmark__ab {
+  margin-left: .03em;
+  font-weight: 480;
+  letter-spacing: -.055em;
+}
+
+.brand-wordmark__accent {
+  position: absolute;
+  left: 2.15em;
+  bottom: -.02em;
+  width: .82em;
+  height: .14em;
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.brand-descriptor {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+/* iOS Safari can corrupt raster/blur layers when several transformed and
+   backdrop-filtered descendants overlap inside clipped bento cards. Keep the
+   mobile scene visually equivalent but render it with stable flat layers. */
+@media (max-width: 820px) {
+  .site-header,
+  .mobile-nav,
+  .glass-button,
+  .dental-object__core {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .site-header {
+    background: rgba(7, 17, 30, .96);
+  }
+
+  .mobile-nav {
+    background: #07111e;
+  }
+
+  .app-shell::after {
+    display: none;
+  }
+
+  .bento-card {
+    transform-style: flat;
+    -webkit-transform-style: flat;
+  }
+
+  .works-card-photo,
+  .bento-card--works:hover .works-card-photo {
+    filter: none !important;
+    transform: none !important;
+    transition: opacity .35s ease !important;
+    opacity: .78;
+  }
+
+  .glass-button {
+    background: linear-gradient(115deg, rgba(28, 42, 54, .94), rgba(15, 27, 38, .90));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+  }
+
+  .dental-object {
+    transform-style: flat !important;
+    filter: none !important;
+    animation: none !important;
+  }
+
+  .dental-object span {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  .dental-object__halo {
+    filter: none !important;
+    opacity: .30;
+  }
+
+  .dental-object__ring,
+  .dental-object__detail {
+    display: none !important;
+  }
+
+  .dental-object__core {
+    transform: rotate(12deg) !important;
+    box-shadow: inset 8px 9px 14px rgba(255,255,255,.24), inset -9px -10px 15px rgba(18,42,59,.22), 0 12px 22px rgba(1,10,19,.18);
+  }
+
+  .dental-object--works {
+    opacity: .56 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand-lockup--compact .brand-wordmark {
+    font-size: 28px;
+  }
+
+  .bento-card--hero .brand-lockup--compact .brand-wordmark {
+    font-size: 31px;
+  }
+}
+
+@media (max-width: 390px) {
+  .brand-lockup--compact .brand-wordmark {
+    font-size: 26px;
+  }
+
+  .bento-card--hero .brand-lockup--compact .brand-wordmark {
+    font-size: 29px;
+  }
+}
