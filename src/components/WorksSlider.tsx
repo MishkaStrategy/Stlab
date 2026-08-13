@@ -1,6 +1,5 @@
 import { useId, useRef } from 'react'
-
-const base = import.meta.env.BASE_URL
+import '../styles/work-textures.css'
 
 type VisualVariant = 'zirconia' | 'emax' | 'prosthesis'
 
@@ -24,15 +23,15 @@ const slides: Slide[] = [
     variant: 'emax',
     eyebrow: 'Ivoclar IPS E.MAX',
     title: 'Керамическая реставрация',
-    aria: 'Визуализация керамической реставрации IPS E.MAX',
-    description: 'Керамическая реставрация IPS E.MAX в цифровом рабочем процессе.',
+    aria: 'Абстрактная стеклокерамическая композиция IPS E.MAX',
+    description: 'Стеклокерамика, прозрачность и цифровая геометрия в стилистике STLab.',
   },
   {
     variant: 'prosthesis',
     eyebrow: 'Съёмное / условно съёмное',
     title: 'Протез на имплантах',
-    aria: 'Визуализация полного зубного протеза на имплантах',
-    description: 'Визуальная сцена протеза на имплантах для портфолио STLab.',
+    aria: 'Абстрактная композиция протеза на имплантах и титановых компонентов',
+    description: 'Титановые компоненты, дуга конструкции и CAD-линии без фотографического изображения.',
   },
 ]
 
@@ -95,6 +94,40 @@ function ZirconiaVisual({ aria }: { aria: string }) {
   )
 }
 
+function EmaxTexture({ aria }: { aria: string }) {
+  return (
+    <div className="work-texture work-texture--emax" role="img" aria-label={aria}>
+      <span className="emax-halo" />
+      <span className="emax-halo emax-halo--b" />
+      <span className="emax-plate emax-plate--back" />
+      <span className="emax-plate" />
+      <span className="emax-plate emax-plate--front" />
+      <span className="emax-line emax-line--1" />
+      <span className="emax-line emax-line--2" />
+      <span className="emax-line emax-line--3" />
+      <span className="emax-node emax-node--1" />
+      <span className="emax-node emax-node--2" />
+      <span className="emax-node emax-node--3" />
+      <span className="emax-floor" />
+    </div>
+  )
+}
+
+function ProsthesisTexture({ aria }: { aria: string }) {
+  return (
+    <div className="work-texture work-texture--prosthesis" role="img" aria-label={aria}>
+      <span className="prosthesis-scan" />
+      <span className="prosthesis-ring prosthesis-ring--1" />
+      <span className="prosthesis-ring prosthesis-ring--2" />
+      <span className="prosthesis-arch" />
+      <span className="prosthesis-arch prosthesis-arch--inner" />
+      <span className="implant-pin implant-pin--1" />
+      <span className="implant-pin implant-pin--2" />
+      <span className="implant-pin implant-pin--3" />
+    </div>
+  )
+}
+
 export function WorksSlider() {
   const ref = useRef<HTMLDivElement>(null)
   const drag = useRef<{ active: boolean; startX: number; scrollLeft: number }>({ active: false, startX: 0, scrollLeft: 0 })
@@ -147,23 +180,9 @@ export function WorksSlider() {
           <article className="work-slide" key={slide.variant}>
             <div className="work-slide__media">
               {slide.variant === 'emax' ? (
-                <img
-                  className="work-image work-image--emax"
-                  src={`${base}stlab-emax.jpg?v=emax-20260813-2`}
-                  alt={slide.aria}
-                  loading="eager"
-                  decoding="async"
-                  style={{ objectPosition: 'center 54%' }}
-                />
+                <EmaxTexture aria={slide.aria} />
               ) : slide.variant === 'prosthesis' ? (
-                <img
-                  className="work-image work-image--prosthesis"
-                  src={`${base}stlab-prosthesis.webp`}
-                  alt={slide.aria}
-                  loading="lazy"
-                  decoding="async"
-                  style={{ objectPosition: 'center 56%' }}
-                />
+                <ProsthesisTexture aria={slide.aria} />
               ) : (
                 <ZirconiaVisual aria={slide.aria} />
               )}
