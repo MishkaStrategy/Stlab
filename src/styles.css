@@ -2,6 +2,7 @@
 @import './styles/panels.css';
 @import './styles/responsive.css';
 @import './styles/safari-fixes.css';
+@import './styles/works-gallery.css';
 
 .bento-placeholder {
   opacity: 0;
