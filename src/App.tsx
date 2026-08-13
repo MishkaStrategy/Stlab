@@ -34,6 +34,54 @@ function Arrow() {
   )
 }
 
+function WorksCardArtwork() {
+  return (
+    <div className="works-card-art" aria-hidden="true">
+      <svg className="works-card-art__svg" viewBox="0 0 640 520" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <linearGradient id="worksCeramicA" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="0.42" stopColor="#dce8ef" />
+            <stop offset="0.72" stopColor="#9fb7c8" />
+            <stop offset="1" stopColor="#4f7087" />
+          </linearGradient>
+          <linearGradient id="worksCeramicB" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#eef7fb" />
+            <stop offset="0.52" stopColor="#b8cedc" />
+            <stop offset="1" stopColor="#587a91" />
+          </linearGradient>
+          <linearGradient id="worksGlass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#f5fbff" stopOpacity="0.75" />
+            <stop offset="1" stopColor="#5e9ec5" stopOpacity="0.18" />
+          </linearGradient>
+        </defs>
+
+        <path d="M64 425C143 337 216 293 319 293c110 0 188 39 263 132" fill="none" stroke="#284760" strokeWidth="2" opacity="0.7" />
+        <path d="M88 458C176 379 240 348 326 348c94 0 164 30 228 106" fill="none" stroke="#17354d" strokeWidth="1.5" opacity="0.85" />
+
+        <g transform="translate(104 170) rotate(-13)">
+          <path d="M18 78C21 35 44 10 77 14c16 2 23 11 31 11s17-10 32-11c34-3 57 23 59 66 2 39-13 91-34 119-9 12-21 9-26-6l-17-48c-5-14-25-14-30 0l-17 48c-5 15-17 18-26 6C29 171 15 117 18 78Z" fill="url(#worksCeramicB)" />
+          <path d="M41 69c18-31 44-39 68-22 17 12 30 12 48 1 17-10 32-7 46 7" fill="none" stroke="#ffffff" strokeWidth="5" opacity="0.45" />
+        </g>
+
+        <g transform="translate(226 113) rotate(-4)">
+          <path d="M18 78C21 35 44 10 77 14c16 2 23 11 31 11s17-10 32-11c34-3 57 23 59 66 2 39-13 91-34 119-9 12-21 9-26-6l-17-48c-5-14-25-14-30 0l-17 48c-5 15-17 18-26 6C29 171 15 117 18 78Z" fill="url(#worksCeramicA)" />
+          <path d="M41 69c18-31 44-39 68-22 17 12 30 12 48 1 17-10 32-7 46 7" fill="none" stroke="#ffffff" strokeWidth="5" opacity="0.58" />
+        </g>
+
+        <g transform="translate(351 140) rotate(8)">
+          <path d="M18 78C21 35 44 10 77 14c16 2 23 11 31 11s17-10 32-11c34-3 57 23 59 66 2 39-13 91-34 119-9 12-21 9-26-6l-17-48c-5-14-25-14-30 0l-17 48c-5 15-17 18-26 6C29 171 15 117 18 78Z" fill="url(#worksCeramicB)" />
+          <path d="M41 69c18-31 44-39 68-22 17 12 30 12 48 1 17-10 32-7 46 7" fill="none" stroke="#ffffff" strokeWidth="5" opacity="0.46" />
+        </g>
+
+        <ellipse cx="324" cy="394" rx="212" ry="50" fill="#06111a" opacity="0.42" />
+        <path d="M460 80 565 39l42 99-105 42Z" fill="url(#worksGlass)" stroke="#bfe0f3" strokeWidth="1.4" opacity="0.48" />
+        <path d="M483 91 554 64M495 119l72-27M507 148l70-27" stroke="#d8eef9" strokeWidth="1.3" opacity="0.5" />
+      </svg>
+    </div>
+  )
+}
+
 function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId | null; onOpen: () => void }) {
   const reduceMotion = useReducedMotion()
   if (active === card.id) return <div className={`bento-placeholder ${card.className}`} aria-hidden="true" />
@@ -68,12 +116,21 @@ function BentoCard({ card, active, onOpen }: { card: CardConfig; active: PanelId
             <h1>Лаборатория<br />с особым подходом</h1>
           </div>
         </>
-      ) : !isWorks ? (
+      ) : isWorks ? (
+        <>
+          <WorksCardArtwork />
+          <div className="works-card-copy">
+            <span className="works-card-copy__eyebrow">STLab · Портфолио</span>
+            <h2>Наши работы</h2>
+          </div>
+          <span className="works-card-button">Смотреть все <Arrow /></span>
+        </>
+      ) : (
         <div className="bento-card__copy">
           <h2>{card.title}</h2>
           {card.id !== 'contacts' && <span className="card-link">Подробнее <Arrow /></span>}
         </div>
-      ) : null}
+      )}
       {!isWorks && <DentalObject variant={card.variant} />}
       {card.id === 'contacts' && <span className="location-meta">Кирова, 276 <Arrow /></span>}
     </motion.article>
